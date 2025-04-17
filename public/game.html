@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reaction Speed Test - Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --slate-900: #0f172a;
+            --slate-800: #1e293b;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748b;
+            --slate-400: #94a3b8;
+            --slate-300: #cbd5e1;
+            --red-400: #f87171;
+            --yellow-400: #fbbf24;
+            --orange-400: #fb923c;
+            --emerald-400: #34d399;
+            --blue-400: #60a5fa;
+            --cyan-400: #22d3ee;
+            --purple-400: #c084fc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--slate-900), var(--slate-800));
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .game-container {
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .game-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, var(--red-400), var(--yellow-400));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .game-area {
+            background: var(--slate-700);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .game-area.ready {
+            background-color: var(--emerald-400);
+        }
+
+        .game-area.too-early {
+            background-color: var(--red-400);
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .current-time {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            color: var(--yellow-400);
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(to right, var(--red-400), var(--yellow-400));
+            color: var(--slate-900);
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="game-title">Reaction Speed Test</h1>
+        <div class="game-stats">
+            <div>Best Time: <span id="best-time">-</span>ms</div>
+            <div>Average: <span id="average-time">-</span>ms</div>
+            <div>Attempts: <span id="attempts">0</span></div>
+        </div>
+        <div class="current-time" id="current-time"></div>
+        <div class="game-area" id="game-area">Click to start</div>
+        <a href="index.html" class="back-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to Home
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gameArea = document.getElementById('game-area');
+            const bestTimeElement = document.getElementById('best-time');
+            const averageTimeElement = document.getElementById('average-time');
+            const attemptsElement = document.getElementById('attempts');
+            const currentTimeElement = document.getElementById('current-time');
+            
+            let startTime;
+            let reactionTimes = [];
+            let attempts = 0;
+            let timeoutId;
+            let isWaiting = true;
+
+            // Get game mode from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode') || 'classic';
+
+            // Set game title based on mode
+            const modeTitles = {
+                classic: 'Classic Mode',
+                challenge: 'Challenge Mode',
+                zen: 'Zen Mode'
+            };
+            document.querySelector('.game-title').textContent = modeTitles[mode] || 'Reaction Speed Test';
+
+            function startGame() {
+                if (!isWaiting) return;
+                
+                isWaiting = false;
+                gameArea.textContent = 'Wait for green...';
+                gameArea.className = 'game-area';
+                
+                // Random delay between 1-5 seconds
+                const delay = mode === 'zen' ? 2000 : Math.random() * 4000 + 1000;
+                
+                timeoutId = setTimeout(() => {
+                    gameArea.className = 'game-area ready';
+                    gameArea.textContent = 'Click Now!';
+                    startTime = performance.now();
+                }, delay);
+            }
+
+            function recordReaction() {
+                if (isWaiting || !startTime) return;
+                
+                const reactionTime = Math.round(performance.now() - startTime);
+                reactionTimes.push(reactionTime);
+                attempts++;
+                
+                currentTimeElement.textContent = `${reactionTime}ms`;
+                
+                const bestTime = Math.min(...reactionTimes);
+                const averageTime = Math.round(reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length);
+                
+                bestTimeElement.textContent = bestTime;
+                averageTimeElement.textContent = averageTime;
+                attemptsElement.textContent = attempts;
+                
+                resetGame();
+            }
+
+            function resetGame() {
+                clearTimeout(timeoutId);
+                isWaiting = true;
+                startTime = null;
+                gameArea.className = 'game-area';
+                gameArea.textContent = 'Click to start';
+            }
+
+            function handleTooEarly() {
+                if (isWaiting) {
+                    gameArea.className = 'game-area too-early';
+                    gameArea.textContent = 'Too early! Click to try again';
+                    clearTimeout(timeoutId);
+                }
+            }
+
+            // Event listeners
+            gameArea.addEventListener('click', function() {
+                if (isWaiting) {
+                    startGame();
+                } else if (startTime) {
+                    recordReaction();
+                } else {
+                    resetGame();
+                }
+            });
+
+            gameArea.addEventListener('mousedown', function() {
+                if (isWaiting) {
+                    handleTooEarly();
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

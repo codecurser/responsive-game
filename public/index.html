@@ -3,171 +3,460 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reaction Speed Test - Test Your Reflexes</title>
+    <title>Reaction Speed Test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --slate-900: #0f172a;
+            --slate-800: #1e293b;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748b;
+            --slate-400: #94a3b8;
+            --slate-300: #cbd5e1;
+            --red-400: #f87171;
+            --yellow-400: #fbbf24;
+            --orange-400: #fb923c;
+            --emerald-400: #34d399;
+            --blue-400: #60a5fa;
+            --cyan-400: #22d3ee;
+            --purple-400: #c084fc;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #fff;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--slate-900), var(--slate-800));
+            color: white;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
+            line-height: 1.5;
         }
 
         .container {
-            max-width: 1200px;
-            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 0;
+        }
+
+        .hero-content {
+            position: relative;
             text-align: center;
+            z-index: 1;
         }
 
-        .header {
-            margin-bottom: 3rem;
-        }
-
-        h1 {
+        .hero h1 {
             font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--red-400), var(--yellow-400), var(--orange-400));
             -webkit-background-clip: text;
             background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-fill-color: transparent;
             color: transparent;
         }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: #a8b2d1;
-            margin-bottom: 2rem;
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--slate-300);
+            max-width: 48rem;
+            margin: 0 auto;
         }
 
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(to right, var(--red-400), var(--yellow-400));
+            color: var(--slate-900);
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            margin-top: 2.5rem;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Game Modes Section */
         .game-modes {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(to right, var(--yellow-400), var(--orange-400));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .modes-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin-bottom: 3rem;
         }
 
         .mode-card {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            border-radius: 1rem;
             padding: 2rem;
-            transition: transform 0.3s ease;
-            cursor: pointer;
+            transition: all 0.3s;
         }
 
         .mode-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-0.5rem);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
-        .mode-card h2 {
-            color: #ffd93d;
+        .mode-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
             margin-bottom: 1rem;
         }
 
-        .mode-card p {
-            color: #a8b2d1;
+        .mode-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: var(--yellow-400);
+        }
+
+        .mode-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--yellow-400);
+        }
+
+        .mode-description {
+            color: var(--slate-300);
             margin-bottom: 1.5rem;
         }
 
-        .start-button {
-            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 30px;
-            color: #1a1a2e;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            text-decoration: none;
+        .play-button {
             display: inline-block;
+            background: linear-gradient(to right, var(--red-400), var(--yellow-400));
+            color: var(--slate-900);
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            transition: transform 0.2s;
         }
 
-        .start-button:hover {
+        .play-button:hover {
             transform: scale(1.05);
         }
 
+        /* Features Section */
         .features {
-            margin-top: 4rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4rem 0;
+        }
+
+        .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
         }
 
-        .feature {
-            background: rgba(255, 255, 255, 0.05);
+        .feature-card {
+            text-align: center;
             padding: 1.5rem;
-            border-radius: 10px;
         }
 
-        .feature h3 {
-            color: #ffd93d;
+        .feature-icon {
+            width: 3rem;
+            height: 3rem;
+            margin: 0 auto 1rem;
+            color: var(--yellow-400);
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--yellow-400);
             margin-bottom: 0.5rem;
         }
 
-        .feature p {
-            color: #a8b2d1;
+        .feature-description {
+            color: var(--slate-300);
         }
 
+        /* Footer */
+        .footer {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer p {
+            color: var(--slate-400);
+        }
+
+        .footer p:first-child {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            h1 {
+            .hero h1 {
                 font-size: 2.5rem;
             }
             
-            .game-modes {
+            .hero p {
+                font-size: 1.125rem;
+            }
+            
+            .modes-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1>Reaction Speed Test</h1>
-            <p class="subtitle">Test your reflexes and challenge your friends!</p>
-        </header>
-
-        <div class="game-modes">
-            <div class="mode-card">
-                <h2>Classic Mode</h2>
-                <p>Wait for the green light and click as fast as you can. Simple, yet challenging!</p>
-                <a href="../game/classic" class="start-button">Play Classic</a>
-            </div>
-            <div class="mode-card">
-                <h2>Challenge Mode</h2>
-                <p>Unpredictable timing and patterns. Are you ready for the ultimate test?</p>
-                <a href="../game/challenge" class="start-button">Play Challenge</a>
-            </div>
-            <div class="mode-card">
-                <h2>Zen Mode</h2>
-                <p>Consistent timing for focused practice. Perfect your reaction time.</p>
-                <a href="../game/zen" class="start-button">Play Zen</a>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Reaction Speed Test</h1>
+                <p>Challenge your reflexes, track your progress, and compete with friends in this exciting reaction time test!</p>
+                <a href="/game?mode=classic" class="cta-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 10 20 15 15 20"></polyline>
+                        <path d="M4 4v7a4 4 0 0 0 4 4h12"></path>
+                    </svg>
+                    Start Playing
+                </a>
             </div>
         </div>
+    </section>
 
-        <div class="features">
-            <div class="feature">
-                <h3>Real-time Feedback</h3>
-                <p>Get instant feedback on your reaction time and performance.</p>
-            </div>
-            <div class="feature">
-                <h3>Track Progress</h3>
-                <p>Monitor your improvement with detailed statistics and history.</p>
-            </div>
-            <div class="feature">
-                <h3>Multiple Modes</h3>
-                <p>Choose from different game modes to test various aspects of your reflexes.</p>
+    <!-- Game Modes Section -->
+    <section class="game-modes">
+        <div class="container">
+            <h2 class="section-title">Choose Your Challenge</h2>
+            <div class="modes-grid">
+                <div class="mode-card">
+                    <div class="mode-header">
+                        <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <h3 class="mode-title">Classic Mode</h3>
+                    </div>
+                    <p class="mode-description">The traditional reaction test. Wait for the green light and click as fast as you can. Perfect for beginners!</p>
+                    <a href="game.html" class="play-button">Play Classic</a>
+                </div>
+
+                <div class="mode-card">
+                    <div class="mode-header">
+                        <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5"></path>
+                            <path d="M2 12l10 5 10-5"></path>
+                        </svg>
+                        <h3 class="mode-title">Challenge Mode</h3>
+                    </div>
+                    <p class="mode-description">Unpredictable timing and patterns. Test your reflexes under pressure with varying difficulty levels.</p>
+                    <a href="game.html?mode=challenge" class="play-button">Play Challenge</a>
+                </div>
+
+                <div class="mode-card">
+                    <div class="mode-header">
+                        <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5"></path>
+                            <path d="M2 12l10 5 10-5"></path>
+                        </svg>
+                        <h3 class="mode-title">Zen Mode</h3>
+                    </div>
+                    <p class="mode-description">Consistent timing for focused practice. Perfect your reaction time in a calm, controlled environment.</p>
+                    <a href="game.html?mode=zen" class="play-button">Play Zen</a>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose Our Reaction Test?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    <h3 class="feature-title">Real-time Analytics</h3>
+                    <p class="feature-description">Get detailed statistics and insights about your reaction times and improvement.</p>
+                </div>
+
+                <div class="feature-card">
+                    <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <h3 class="feature-title">Compete with Friends</h3>
+                    <p class="feature-description">Challenge your friends and compare your reaction times on the leaderboard.</p>
+                </div>
+
+                <div class="feature-card">
+                    <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <h3 class="feature-title">Track Progress</h3>
+                    <p class="feature-description">Monitor your improvement over time with detailed history and trends.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 Reaction Speed Test. All rights reserved.</p>
+            <p>Test your reflexes, challenge your friends, and improve your reaction time!</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add hover effect to mode cards
+            const modeCards = document.querySelectorAll('.mode-card');
+            modeCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-0.5rem)';
+                    this.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+
+            // Add click effect to buttons
+            const buttons = document.querySelectorAll('.cta-button, .play-button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Add ripple effect
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    this.appendChild(ripple);
+
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${e.clientX - rect.left - size/2}px`;
+                    ripple.style.top = `${e.clientY - rect.top - size/2}px`;
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Add game mode selection tracking
+            const gameModeLinks = document.querySelectorAll('a[href^="/game"]');
+            gameModeLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const mode = this.getAttribute('href').split('=')[1];
+                    // Store selected mode in localStorage
+                    localStorage.setItem('lastSelectedMode', mode);
+                });
+            });
+
+            // Check for last selected mode and highlight it
+            const lastSelectedMode = localStorage.getItem('lastSelectedMode');
+            if (lastSelectedMode) {
+                const lastModeCard = document.querySelector(`a[href="/game?mode=${lastSelectedMode}"]`).closest('.mode-card');
+                if (lastModeCard) {
+                    lastModeCard.style.border = '2px solid var(--yellow-400)';
+                }
+            }
+
+            // Add scroll reveal animation
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.mode-card, .feature-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.5s ease-out';
+                observer.observe(card);
+            });
+        });
+
+        // Add styles for new effects
+        const style = document.createElement('style');
+        style.textContent = `
+            .ripple {
+                position: absolute;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+            }
+
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+
+            .revealed {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html> 

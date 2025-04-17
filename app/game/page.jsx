@@ -7,61 +7,51 @@ import { ArrowRight, Clock, Zap, RotateCcw, Trophy, Flame, Award, BarChart3, Vol
 import confetti from "canvas-confetti"
 import Link from 'next/link'
 
-type GameMode = "classic" | "challenge" | "zen"
-
 export default function Game() {
   const searchParams = useSearchParams()
-  const mode = searchParams.get('mode') as GameMode || "classic"
+  const mode = searchParams.get('mode') || "classic"
   
-  const [gameState, setGameState] = useState<"start" | "waiting" | "ready" | "result">("start")
-  const [reactionTime, setReactionTime] = useState<number | null>(null)
-  const [bestTime, setBestTime] = useState<number | null>(null)
-  const [startTime, setStartTime] = useState<number | null>(null)
-  const [countdown, setCountdown] = useState<number | null>(null)
-  const [streak, setStreak] = useState<number>(0)
-  const [attempts, setAttempts] = useState<number[]>([])
-  const [showStats, setShowStats] = useState<boolean>(false)
-  const [soundEnabled, setSoundEnabled] = useState<boolean>(true)
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const [gameState, setGameState] = useState("start")
+  const [reactionTime, setReactionTime] = useState(null)
+  const [bestTime, setBestTime] = useState(null)
+  const [startTime, setStartTime] = useState(null)
+  const [countdown, setCountdown] = useState(null)
+  const [streak, setStreak] = useState(0)
+  const [attempts, setAttempts] = useState([])
+  const [showStats, setShowStats] = useState(false)
+  const [soundEnabled, setSoundEnabled] = useState(false)
+  const timeoutRef = useRef(null)
+  const containerRef = useRef(null)
 
-  // Audio references
-  const startAudioRef = useRef<HTMLAudioElement>(new Audio("/sounds/start.mp3"))
-  const countdownAudioRef = useRef<HTMLAudioElement>(new Audio("/sounds/countdown.mp3"))
-  const readyAudioRef = useRef<HTMLAudioElement>(new Audio("/sounds/ready.mp3"))
-  const successAudioRef = useRef<HTMLAudioElement>(new Audio("/sounds/success.mp3"))
-  const failAudioRef = useRef<HTMLAudioElement>(new Audio("/sounds/fail.mp3"))
-  const bestTimeAudioRef = useRef<HTMLAudioElement>(new Audio("/sounds/best-time.mp3"))
-  const clickAudioRef = useRef<HTMLAudioElement>(new Audio("/sounds/click.mp3"))
+  // Audio references - commented out since we don't have sound files
+  // const startAudioRef = useRef(new Audio("/sounds/start.mp3"))
+  // const countdownAudioRef = useRef(new Audio("/sounds/countdown.mp3"))
+  // const readyAudioRef = useRef(new Audio("/sounds/ready.mp3"))
+  // const successAudioRef = useRef(new Audio("/sounds/success.mp3"))
+  // const failAudioRef = useRef(new Audio("/sounds/fail.mp3"))
+  // const bestTimeAudioRef = useRef(new Audio("/sounds/best-time.mp3"))
+  // const clickAudioRef = useRef(new Audio("/sounds/click.mp3"))
 
   // Initialize audio elements
   useEffect(() => {
     // Set volume for all audio elements
-    const audioElements = [
-      startAudioRef.current,
-      countdownAudioRef.current,
-      readyAudioRef.current,
-      successAudioRef.current,
-      failAudioRef.current,
-      bestTimeAudioRef.current,
-      clickAudioRef.current,
-    ]
+    // const audioElements = [
+    //   startAudioRef.current,
+    //   countdownAudioRef.current,
+    //   readyAudioRef.current,
+    //   successAudioRef.current,
+    //   failAudioRef.current,
+    //   bestTimeAudioRef.current,
+    //   clickAudioRef.current,
+    // ]
 
-    audioElements.forEach((audio) => {
-      audio.volume = 0.5
-    })
-
-    return () => {
-      // Clean up audio elements
-      audioElements.forEach((audio) => {
-        audio.pause()
-        audio.currentTime = 0
-      })
-    }
+    // audioElements.forEach((audio) => {
+    //   audio.volume = 0.5
+    // })
   }, [])
 
   // Function to play sound if enabled
-  const playSound = (audioRef: React.RefObject<HTMLAudioElement>) => {
+  const playSound = (audioRef) => {
     if (soundEnabled && audioRef.current) {
       audioRef.current.currentTime = 0
       audioRef.current.play().catch((e) => console.error("Audio play failed:", e))
@@ -100,7 +90,7 @@ export default function Game() {
   }
 
   const startGame = () => {
-    playSound(startAudioRef)
+    // playSound(startAudioRef)
     setGameState("waiting")
     setCountdown(3)
   }
@@ -108,7 +98,7 @@ export default function Game() {
   useEffect(() => {
     if (gameState === "waiting" && countdown !== null) {
       if (countdown > 0) {
-        playSound(countdownAudioRef)
+        // playSound(countdownAudioRef)
         const timer = setTimeout(() => {
           setCountdown(countdown - 1)
         }, 1000)
@@ -120,7 +110,7 @@ export default function Game() {
         timeoutRef.current = setTimeout(() => {
           setStartTime(Date.now())
           setGameState("ready")
-          playSound(readyAudioRef)
+          // playSound(readyAudioRef)
         }, randomDelay)
         return () => {
           if (timeoutRef.current) clearTimeout(timeoutRef.current)
@@ -136,7 +126,7 @@ export default function Game() {
       setGameState("result")
       setReactionTime(-1) // Indicate early click
       setStreak(0) // Reset streak on failure
-      playSound(failAudioRef)
+      // playSound(failAudioRef)
     } else if (gameState === "ready") {
       // Successful click
       const endTime = Date.now()
@@ -148,13 +138,13 @@ export default function Game() {
       setStreak((prev) => prev + 1)
 
       // Play success sound
-      playSound(successAudioRef)
+      // playSound(successAudioRef)
 
       // Update best time
       if (bestTime === null || time < bestTime) {
         setBestTime(time)
         // Play best time sound
-        playSound(bestTimeAudioRef)
+        // playSound(bestTimeAudioRef)
 
         // Trigger confetti for new best time
         if (containerRef.current) {
@@ -175,7 +165,7 @@ export default function Game() {
   }
 
   const resetGame = () => {
-    playSound(clickAudioRef)
+    // playSound(clickAudioRef)
     setGameState("start")
     setStartTime(null)
   }
@@ -190,7 +180,7 @@ export default function Game() {
     return Math.round(validAttempts.reduce((sum, time) => sum + time, 0) / validAttempts.length)
   }
 
-  const getReactionRating = (time: number) => {
+  const getReactionRating = (time) => {
     if (time < 150) return { text: "Superhuman!", color: "text-purple-400" }
     if (time < 200) return { text: "Lightning Fast!", color: "text-cyan-400" }
     if (time < 250) return { text: "Excellent!", color: "text-emerald-400" }
@@ -276,7 +266,7 @@ export default function Game() {
 
           <button
             onClick={() => {
-              playSound(clickAudioRef)
+              // playSound(clickAudioRef)
               setShowStats(!showStats)
             }}
             className="text-center"
