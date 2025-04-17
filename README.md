@@ -23,8 +23,8 @@ A modern web application to test and improve your reaction speed. Built with Nex
 
 1. Clone the repository:
 ```bash
-git clone <your-repository-url>
-cd reaction-speed-test
+git clone https://github.com/codecurser/responsive-game.git
+cd responsive-game
 ```
 
 2. Install dependencies:
