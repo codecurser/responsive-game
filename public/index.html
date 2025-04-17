@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reaction Speed Test - Test Your Reflexes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a8b2d1;
+            margin-bottom: 2rem;
+        }
+
+        .game-modes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .mode-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .mode-card h2 {
+            color: #ffd93d;
+            margin-bottom: 1rem;
+        }
+
+        .mode-card p {
+            color: #a8b2d1;
+            margin-bottom: 1.5rem;
+        }
+
+        .start-button {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            color: #1a1a2e;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .start-button:hover {
+            transform: scale(1.05);
+        }
+
+        .features {
+            margin-top: 4rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+
+        .feature h3 {
+            color: #ffd93d;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature p {
+            color: #a8b2d1;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .game-modes {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Reaction Speed Test</h1>
+            <p class="subtitle">Test your reflexes and challenge your friends!</p>
+        </header>
+
+        <div class="game-modes">
+            <div class="mode-card">
+                <h2>Classic Mode</h2>
+                <p>Wait for the green light and click as fast as you can. Simple, yet challenging!</p>
+                <a href="/game/classic" class="start-button">Play Classic</a>
+            </div>
+            <div class="mode-card">
+                <h2>Challenge Mode</h2>
+                <p>Unpredictable timing and patterns. Are you ready for the ultimate test?</p>
+                <a href="/game/challenge" class="start-button">Play Challenge</a>
+            </div>
+            <div class="mode-card">
+                <h2>Zen Mode</h2>
+                <p>Consistent timing for focused practice. Perfect your reaction time.</p>
+                <a href="/game/zen" class="start-button">Play Zen</a>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <h3>Real-time Feedback</h3>
+                <p>Get instant feedback on your reaction time and performance.</p>
+            </div>
+            <div class="feature">
+                <h3>Track Progress</h3>
+                <p>Monitor your improvement with detailed statistics and history.</p>
+            </div>
+            <div class="feature">
+                <h3>Multiple Modes</h3>
+                <p>Choose from different game modes to test various aspects of your reflexes.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
